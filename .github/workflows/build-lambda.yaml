@@ -39,7 +39,7 @@ jobs:
 
         zip hello.zip hello.py
 
-        zip ec2-explorer.zip ec2-explorer.py
+        zip cost-explorer.zip cost-explorer.py
 
  
     - name: Upload to S3
@@ -48,4 +48,4 @@ jobs:
 
         aws s3 cp hello.zip s3://lambda-stored/
 
-        aws s3 cp ec2-explorer.zip s3://lambda-stored/
+        aws s3 cp cost-explorer.zip s3://lambda-stored/
