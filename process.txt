@@ -1,0 +1,25 @@
+
+
+1. **Workflow Name and Trigger:**
+   - The workflow is named "Upload Lambdas to S3".
+   - It is triggered on pushes to the "main" branch.
+
+2. **Job Configuration:**
+   - The job named "deploy" runs on an Ubuntu environment.
+   - It will execute the specified steps.
+
+3. **Checkout Repository:**
+   - The first step checks out the repository.
+
+4. **Configure AWS Credentials:**
+   - The second step configures AWS credentials using the provided secrets.
+   - It sets the AWS access key ID, secret access key, and region to "us-east-1".
+
+5. **Zip the Lambda Functions:**
+   - The third step zips the Lambda functions.
+   - It creates "hello.zip" containing "hello.py" and "ec2-explorer.zip" containing "ec2-explorer.py".
+
+6. **Upload to S3:**
+   - The fourth step uploads the zip files to an S3 bucket named "lambda-stored".
+   - It uses the AWS CLI command `aws s3 cp` to copy the files to the S3 bucket.
+

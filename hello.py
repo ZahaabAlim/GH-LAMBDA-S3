@@ -1,1 +1,2 @@
-print("Hello WOrld")
+def lambda_handler(event, context):
+    return "hello"
