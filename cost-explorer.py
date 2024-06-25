@@ -1,15 +1,11 @@
 import csv
-import json  # Don't forget to import the json module!
+import json
 import boto3
 import os
 from datetime import datetime, timedelta
 
-# Initialize AWS clients
+# Initialize AWS client for Cost Explorer
 ce = boto3.client('ce')
-sns = boto3.client('sns')
-
-# SNS topic ARN (replace with your actual SNS topic ARN)
-sns_topic_arn = os.environ['SNS_TOPIC_ARN']
 
 def lambda_handler(event, context):
     # Define the time period for the report
@@ -59,14 +55,7 @@ def lambda_handler(event, context):
     # Print the report to the Lambda logs
     print(csv_report)
 
-    # Publish the report to the SNS topic
-    sns.publish(
-        TopicArn=sns_topic_arn,
-        Subject='AWS Cost Explorer Report (CSV)',
-        Message=csv_report
-    )
-
     return {
         'statusCode': 200,
-        'body': json.dumps('Report generated and published successfully')
+        'body': json.dumps('Report generated successfully')
     }
