@@ -1,5 +1,5 @@
 
-name: Upload Lambdas to S3
+name: Upload Lambdas to S3 
  
 on:
 
