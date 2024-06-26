@@ -5,7 +5,7 @@ provider "aws" {
 # Configure the Terraform backend to store the state in S3 and use DynamoDB for locking
 terraform {
   backend "s3" {
-    bucket = "tf-backend-st1S"
+    bucket = "tf-backend-st1"
     key    = "terraform.tfstate"
     region = "us-east-1"
  
