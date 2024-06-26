@@ -1,51 +1,40 @@
+name: Terraform Deployment
 
-name: Upload Lambdas to S3 
- 
 on:
-
   push:
-
     branches:
-
       - main
- 
+
 jobs:
-
   deploy:
-
     runs-on: ubuntu-latest
- 
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Checkout repository
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-      uses: actions/checkout@v3
- 
-    - name: Configure AWS credentials
+      - name: Initialize Terraform
+        run: terraform init
 
-      uses: aws-actions/configure-aws-credentials@v4
+      - name: Plan Terraform changes
+        run: terraform plan -out=tfplan
 
-      with:
+      - name: Apply Terraform changes
+        run: terraform apply -auto-approve tfplan
 
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+      - name: Zip the Lambda functions
+        run: |
+          zip hello.zip hello.py
+          zip cost-explorer.zip cost-explorer.py
 
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-        aws-region: us-east-1
- 
-    - name: Zip the lambda functions
-
-      run: |
-
-        zip hello.zip hello.py
-
-        zip cost-explorer.zip cost-explorer.py
-
- 
-    - name: Upload to S3
-
-      run: |
-
-        aws s3 cp hello.zip s3://lambda-stored/
-
-        aws s3 cp cost-explorer.zip s3://lambda-stored/
+      - name: Upload to S3
+        run: |
+          aws s3 cp hello.zip s3://lambda-stored/
+          aws s3 cp cost-explorer.zip s3://lambda-stored/
